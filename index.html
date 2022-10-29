@@ -12,38 +12,26 @@
     <hr>
     <form onsubmit="checkPin(); return false">
 
-        <h3>Atm Machine</h3>
-    Enter Your Pin:
+        <!-- <h3 id="moneyBox">ATM Machine</h3> -->
+    <P><B>Enter Your Pin: <input type="number" id="userInputPin" required><button>Confirm</button></B></P>
 
-    <input type="number" id="userInputPin" required>
-    <button>Confirm</button>
     </form>
 
     <h4 id="errorMessage"> </h4>
+    <p id="HomeScreen"></p>
+    <p id="InSufficientAmount"></p>
+    <p id="moneyBox"> <b>Money Box Amount     = 30000</b></p>
+    <p id="cardDailyLimit"> <b> Daily Limit    = 20000</b></p>
+    <p id="accountBalace"> <b> Account Balance = 50000</b></p>
 
-    <div id="HomeScreen">
-
-    </div>
-    <form onsubmit="checkAmount(); return false">
-
-    Enter Your Amount:
-
-    <input type="Amount" id="userInputAmount" required>
-
-    <button>Confirm</button>
-    </form>
-
-    <h4 id="errorMessage"> </h4>
-
-    <div id="HomeScreen">
-
-    </div>
-
-
+    
+    <h3 id="WithDraw"></h3>
+        
     <script>
-        let moneyBox = 22000; // atm machine money box
+        let moneyBox = 30000;
         let cardDailyLimit = 20000;
         let accountBalance = 50000;
+        
 
         function checkPin() {
       console.log("I Am Checking Pin");
@@ -58,48 +46,60 @@
         document.querySelector("#errorMessage").innerHTML = `You Must Enter 4 Digit Pin Number`;
         return;
     }
-    if (userInputPin === "6610") {
-                document.querySelector("#errorMessage").innerHTML = `Correct pin number ✅`;
+            if (userInputPin === "1999") {
+                document.querySelector("#errorMessage").innerHTML = `Correct Pin Number ✅`;
 
-                document.querySelector("#homeScreen").innerHTML = <form onsubmit="withdraw(); return false">
-
-                    Enter Your Amount To Withdraw: <input type="number" id="userInputAmount" required>
+                document.querySelector("#HomeScreen").innerHTML = `
+                
+                <form onsubmit="withDraw(); return false">
+                 Amount Enter: <input type="number" id="userInputAmount" required>
                     <button>WithDraw</button>
                 </form>
+                `
                 return;
             }
-            if (userInputPin !== "6610") {
-                document.querySelector("#errorMessage").innerHTML = `Incorrect pin number ❌`;
+            if (userInputPin !== "1999") {
+                document.querySelector("#errorMessage").innerHTML = `Incorrect Pin Number ❌`;
                 return;
             }
+        }
+        function withDraw() {
+            console.log ("withDraw");
+
+            let userInputAmount = document.querySelector("#userInputAmount").value;
+
+            if (userInputAmount > moneyBox) {
+                   document.querySelector("#InSufficientAmount").innerHTML = `This Machine Does'nt Have Enough Money, Please Try Smaller Amount ❌`;
+                retrun;
+                }
+
+                if (userInputAmount > cardDailyLimit) {
+                    document.querySelector("#InSufficientAmount").innerHTML = `You Are Exceeding Your Daily Limit ❌`;
+                retrun;
+                }
+                if (userInputAmount > accountBalance) {
+                    document.querySelector("#InSufficientAmount").innerHTML = `Your Account Balance Is Under Your Giving Value ❌`;
+                retrun;
+                }
+                if (userInputAmount < "500") {
+                    document.querySelector("#InSufficientAmount").innerHTML = `You Can't Put Amount Less Than 500 `
+                    return;
+                }
+                if (userInputAmount % 500) {
+                    document.querySelector("#InSufficientAmount").innerHTML = `Please Input Amount 500 Or Multiple Of 500`
+                    return;
+                }
+                if (userInputAmount > "30000") {
+                    document.querySelector("#InSufficientAmount").innerHTML = `This ATM Machine Is Not Having Enough Amount Please Try Another Amount`
+                    return;
+                }           
+
+
+
+
 
         }
-
-        function withdraw() {
-            let amount = document.querySelector("#userInputAmount").value;
-            if (amount > moneyBox) {
-                console.log("this machine dont have enough money, please try smaller amount");
-            }
-
-            if (amount < cardDailyLimit) {
-                console.log("Transcation In Progress");
-            }
-            if (amount > accountBalance) {
-                console.log ("You Have Axceed Your Daily Limit");
-            }
-
-
-
-
-
-            // TODO:  complete this code
-
-            // also check invalid amount, amount should be multiple of 500
-        }
-
-
-
-    
+                         
     </script>
 </body>
 </html>
