@@ -8,28 +8,27 @@
 </head>
 <body>
     
-    <h1>Es6 Condition Checking With If Else</h1>
+    <!-- <h1>Es6 Condition Checking With If Else</h1> -->
+
+    <h1>ATM Machine</h1>
     <hr>
     <form onsubmit="checkPin(); return false">
 
-        <!-- <h3 id="moneyBox">ATM Machine</h3> -->
-    <P><B>Enter Your Pin: <input type="number" id="userInputPin" required><button>Confirm</button></B></P>
+       <P><B>Enter Your Pin: <input type="number" id="userInputPin" required><button>Confirm</button></B></P>
 
     </form>
 
     <h4 id="errorMessage"> </h4>
     <p id="HomeScreen"></p>
     <p id="InSufficientAmount"></p>
-    <p id="moneyBox"> <b>Money Box Amount     = 30000</b></p>
-    <p id="cardDailyLimit"> <b> Daily Limit    = 20000</b></p>
-    <p id="accountBalace"> <b> Account Balance = 50000</b></p>
-
+    <h1> Money Box <span id="moneyBox">30000</span></h1>
+    <h1> Card Daily Limit <span id="cardDailyLimit">20000</span></h1>
+    <h1> Account Balance <span id="accountBalance">50000</span></h1>
+    <h3 id="withDraw"></h3>
     
-    <h3 id="WithDraw"></h3>
-        
     <script>
         let moneyBox = 30000;
-        let cardDailyLimit = 20000;
+        let cardDailyLimit = 35000;
         let accountBalance = 50000;
         
 
@@ -52,11 +51,11 @@
                 document.querySelector("#HomeScreen").innerHTML = `
                 
                 <form onsubmit="withDraw(); return false">
-                 Amount Enter: <input type="number" id="userInputAmount" required>
+                <label> Amount Enter: </label> <input type="number" id="userInputAmount" required>
                     <button>WithDraw</button>
                 </form>
                 `
-                return;
+                return true;
             }
             if (userInputPin !== "1999") {
                 document.querySelector("#errorMessage").innerHTML = `Incorrect Pin Number ❌`;
@@ -70,36 +69,63 @@
 
             if (userInputAmount > moneyBox) {
                    document.querySelector("#InSufficientAmount").innerHTML = `This Machine Does'nt Have Enough Money, Please Try Smaller Amount ❌`;
-                retrun;
+                return false;
                 }
 
-                if (userInputAmount > cardDailyLimit) {
+               else if (userInputAmount > cardDailyLimit) {
                     document.querySelector("#InSufficientAmount").innerHTML = `You Are Exceeding Your Daily Limit ❌`;
-                retrun;
+                return false;
                 }
-                if (userInputAmount > accountBalance) {
+                else if (userInputAmount < 500) {
+                    document.querySelector("#InSufficientAmount").innerHTML = `You Can't Put Amount Less Than 500`;
+                    return false;
+                }
+                else if (userInputAmount % 500) {
+                    document.querySelector("#InSufficientAmount").innerHTML = `Please Input Amount 500 Or Multiple Of 500`;
+                    return false;
+                }
+
+                else if (userInputAmount > accountBalance) {
                     document.querySelector("#InSufficientAmount").innerHTML = `Your Account Balance Is Under Your Giving Value ❌`;
-                retrun;
+                return false; 
                 }
-                if (userInputAmount < "500") {
-                    document.querySelector("#InSufficientAmount").innerHTML = `You Can't Put Amount Less Than 500 `
-                    return;
-                }
-                if (userInputAmount % 500) {
-                    document.querySelector("#InSufficientAmount").innerHTML = `Please Input Amount 500 Or Multiple Of 500`
-                    return;
-                }
-                if (userInputAmount > "30000") {
-                    document.querySelector("#InSufficientAmount").innerHTML = `This ATM Machine Is Not Having Enough Amount Please Try Another Amount`
-                    return;
-                }           
 
 
+             else {
 
+                console.log("moneyBox, cardDailyLimit, accountBalance");
 
+                document.querySelector("#InSufficientAmount").innerHTML = `Transaction Processed Successfully`;
 
+                moneyBox = moneyBox - Number(userInputAmount);
+                cardDailyLimit = cardDailyLimit - Number(userInputAmount);
+                accountBalance = accountBalance - Number(userInputAmount);
+
+                document.getElementById("moneyBox").innerHTML = moneyBox;
+                document.getElementById("cardDailyLimit").innerHTML = cardDailyLimit;
+                document.getElementById("accountBalance").innerHTML = accountBalance;
+                return true;
+            }
+                                
+                // moneyBox = document.querySelector("moneyBox").value;
+                // cardDailyLimit = document.querySelector("cardDailyLimit").value;
+                // accountBalance = document.querySelector ("accountBalance").value;
+                
+             
+            // moneyBox= Number(moneyBox);
+            // cardDailyLimit= Number(cardDailyLimit);
+            // accountBalace= Number (accountBalace);
+
+            // let differenceResult = userInputAmount - moneyBox;
+            // differenceResult = userInputAmount - cardDailyLimit;
+            // differenceResult = userInputAmount - accountBalace;
+
+            // console.log("differenceResult is " + differenceResult);
+
+            // document.querySelector("WithDraw").innerHTML = differenceResult;
+            
         }
-                         
+                                 
     </script>
 </body>
 </html>
